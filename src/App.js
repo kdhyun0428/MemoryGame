@@ -16,6 +16,7 @@ function App() {
   const [turns, setTurns] = useState(0)
   const [choiceOne, setChoiceOne] = useState(null)
   const [choiceTwo, setChoiceTwo] = useState(null)
+  const [disabled, setDisabled] = useState(false)
 
   //카드 섞기
   const shuffleCards = () => {
@@ -23,20 +24,25 @@ function App() {
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random()}))
 
+      setChoiceOne(null)
+      setChoiceTwo(null)
       setCards(shuffleCards)
       setTurns(0)
   }
 
   //카드 선택
   const handleChoice = (card) => {
-    choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
-  }
+    if (!choiceTwo) {
+      choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+   }
+  } 
 
   //두 카드를 비교
   useEffect(() => {
+    setDisabled(true)
     if (choiceOne && choiceTwo){
 
-      if(choiceOne.src === choiceTwo.src){
+      if(choiceOne.src  === choiceTwo.src){
         setCards(prevCards => {
           return prevCards.map(card => {
             if (card.src === choiceOne.src){
@@ -60,7 +66,12 @@ function App() {
     setChoiceOne(null)
     setChoiceTwo(null)
     setTurns(prevTurns => prevTurns + 1)
+    setTimeout(() => setDisabled(false), 20)
   }
+
+  useEffect(() => {
+    shuffleCards()
+  }, [])
 
   return (
     <div className="App">
@@ -74,9 +85,11 @@ function App() {
             card={card}
             handleChoice={handleChoice} 
             flipped={card === choiceOne || card === choiceTwo || card.matched}
+            disabled={disabled}
           />
         ))}
       </div>
+      <p>턴 : {turns}</p>
     </div>
   );
 }
