@@ -3,12 +3,12 @@ import './App.css';
 import SingleCard from './components/SingleCard';
 
 const cardImages = [
-  {"src": "/img/helmet-1.png"},
-  {"src": "/img/potion-1.png"},
-  {"src": "/img/ring-1.png"},
-  {"src": "/img/scroll-1.png"},
-  {"src": "/img/shield-1.png"},
-  {"src": "/img/sword-1.png"}
+  {"src": "/img/helmet-1.png", matched: false},
+  {"src": "/img/potion-1.png", matched: false},
+  {"src": "/img/ring-1.png", matched: false},
+  {"src": "/img/scroll-1.png", matched: false},
+  {"src": "/img/shield-1.png", matched: false},
+  {"src": "/img/sword-1.png", matched: false}
 ]
 
 function App() {
@@ -37,14 +37,23 @@ function App() {
     if (choiceOne && choiceTwo){
 
       if(choiceOne.src === choiceTwo.src){
-        console.log("일치합니다")
+        setCards(prevCards => {
+          return prevCards.map(card => {
+            if (card.src === choiceOne.src){
+              return {...card, matched: true}
+            } else {
+              return card
+            }
+          })
+        })
         resetTurn()
       } else{
-        console.log("불일치합니다")
-        resetTurn()
+        setTimeout(() => resetTurn(), 1000)
       }
     }
   }, [choiceOne, choiceTwo])
+
+  console.log(cards)
 
   //선택 초기화 & 턴 증가
   const resetTurn = () => {
@@ -63,7 +72,8 @@ function App() {
           <SingleCard 
             key={card.id} 
             card={card}
-            handleChoice={handleChoice}  
+            handleChoice={handleChoice} 
+            flipped={card === choiceOne || card === choiceTwo || card.matched}
           />
         ))}
       </div>
