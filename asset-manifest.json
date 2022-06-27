@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/kdhyun0428/Web/static/css/main.a71214bf.css",
+    "main.js": "/kdhyun0428/Web/static/js/main.10b0c803.js",
+    "index.html": "/kdhyun0428/Web/index.html",
+    "main.a71214bf.css.map": "/kdhyun0428/Web/static/css/main.a71214bf.css.map",
+    "main.10b0c803.js.map": "/kdhyun0428/Web/static/js/main.10b0c803.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a71214bf.css",
+    "static/js/main.10b0c803.js"
+  ]
+}
